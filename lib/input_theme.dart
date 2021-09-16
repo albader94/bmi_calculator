@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'icon_content.dart';
 import 'reusable_card.dart';
-
-const double bottomContainerHeight = 80.0;
-const Color activeCardColor = Color(0xFF1D1E33);
-const Color inactiveCardColor = Color(0xFF111328);
-const Color bottomContainerColor = Color(0xFFEB1555);
+import 'constants.dart';
 
 enum Gender {
   male, 
@@ -20,30 +16,8 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
 
-  //Color maleCardColor = inactiveCardColor;
-  //Color femaleCardColor = inactiveCardColor;
   Gender selectedGender;
-
-  // void updateColor(Gender gender){
-  //   // 1 = male, 2 = female
-  //   if(gender == Gender.male){
-  //     if(maleCardColor == inactiveCardColor){
-  //       maleCardColor = activeCardColor;
-  //       femaleCardColor = inactiveCardColor;
-  //     } else {
-  //       maleCardColor = inactiveCardColor;
-  //     }
-  //   } 
-
-  //   if(gender == Gender.female){
-  //     if(femaleCardColor == inactiveCardColor){
-  //       femaleCardColor = activeCardColor;
-  //       maleCardColor = inactiveCardColor;
-  //     } else {
-  //       femaleCardColor = inactiveCardColor;
-  //     }
-  //   }
-  // }
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -57,31 +31,25 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: ReusableCard(
+                    cardColor: selectedGender == Gender.male ? kActiveCardColor : kInactiveCardColor,//maleCardColor,
+                    cardWidget: IconContent(icon: FontAwesomeIcons.mars, label: 'MALE',),  
+                    onPress: () {
                       setState(() {
-                        //updateColor(Gender.male);
                         selectedGender = Gender.male;
-                      });
+                      },);
                     },
-                    child: ReusableCard(
-                      cardColor: selectedGender == Gender.male ? activeCardColor : inactiveCardColor,//maleCardColor,
-                      cardWidget: IconContent(icon: FontAwesomeIcons.mars, label: 'MALE',),  
-                    ),
                   ),
                 ),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: ReusableCard(
+                    cardColor: selectedGender == Gender.female ? kActiveCardColor : kInactiveCardColor,//femaleCardColor,
+                    cardWidget: IconContent(icon: FontAwesomeIcons.venus, label: 'FEMALE',),
+                    onPress: () {
                       setState(() {
-                        //updateColor(Gender.female);
                         selectedGender = Gender.female;
-                      });
-                    },
-                    child: ReusableCard(
-                      cardColor: selectedGender == Gender.female ? activeCardColor : inactiveCardColor,//femaleCardColor,
-                      cardWidget: IconContent(icon: FontAwesomeIcons.venus, label: 'FEMALE',),  
-                    ),
+                      },);
+                    }  
                   ),
                 ),
               ],
@@ -91,7 +59,45 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: ReusableCard(cardColor: activeCardColor,),
+                  child: ReusableCard(
+                    cardColor: kActiveCardColor,
+                    cardWidget: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'HEIGHT', 
+                          style: kLabelStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              height.toString(), 
+                              style: kNumberTextStyle
+                            ),
+                            Text(
+                              'cm',
+                              style: kLabelStyle,
+                            ),
+                          ],
+                        ),
+                        Slider(
+                          value: height.toDouble(), 
+                          activeColor: kBottomContainerColor,
+                          inactiveColor: kLightGrey,
+                          min: 120.0,
+                          max: 220.0,
+                          onChanged: (double newValue){
+                            setState(() {
+                              height = newValue.round();
+                            });
+                          }
+                        ),
+                      ],
+                    ),  
+                  ),
                 ),
               ],
             ),
@@ -100,18 +106,18 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: ReusableCard(cardColor: activeCardColor,),
+                  child: ReusableCard(cardColor: kActiveCardColor,),
                 ),
                 Expanded(
-                  child: ReusableCard(cardColor: activeCardColor,),
+                  child: ReusableCard(cardColor: kActiveCardColor,),
                 ),
               ],
             ),
           ),
           Container(
-            color: bottomContainerColor,
+            color: kBottomContainerColor,
             margin: EdgeInsets.only(top: 10.0),
-            height: bottomContainerHeight,
+            height: kBottomContainerHeight,
             width: double.infinity,
           )
         ],
