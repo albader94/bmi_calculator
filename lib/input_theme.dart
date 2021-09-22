@@ -18,6 +18,8 @@ class _InputPageState extends State<InputPage> {
 
   Gender selectedGender;
   int height = 180;
+  int weight = 60;
+  int age = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +117,74 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: ReusableCard(cardColor: kActiveCardColor,),
+                  child: ReusableCard(
+                    cardColor: kActiveCardColor,
+                    cardWidget: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('WEIGHT', style: kLabelStyle,),
+                        Text(weight.toString(), style: kNumberTextStyle,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundActionButton(
+                              icon:FontAwesomeIcons.minus,
+                              onPressed: (){
+                                setState(() {
+                                  weight--;
+                                });
+                              },  
+                            ),
+                            SizedBox(width: 10.0,),
+                            RoundActionButton(
+                              icon:FontAwesomeIcons.plus,
+                              onPressed: (){
+                                setState(() {
+                                  weight++;
+                                });
+                              },  
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: ReusableCard(cardColor: kActiveCardColor,),
+                  child: ReusableCard(
+                    cardColor: kActiveCardColor,
+                    cardWidget: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('AGE', style: kLabelStyle,),
+                        Text(age.toString(), style: kNumberTextStyle,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundActionButton(
+                              icon:FontAwesomeIcons.minus,
+                              onPressed: (){
+                                setState(() {
+                                  if(age == 0){
+                                    age = 0;
+                                  }else age--;
+                                });
+                              },  
+                            ),
+                            SizedBox(width: 10.0,),
+                            RoundActionButton(
+                              icon:FontAwesomeIcons.plus,
+                              onPressed: (){
+                                setState(() {
+                                  age++;
+                                });
+                              },  
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -135,4 +201,25 @@ class _InputPageState extends State<InputPage> {
   }
 }
 
+class RoundActionButton extends StatelessWidget{
 
+  RoundActionButton({@required this.icon, @required this.onPressed});
+
+  final IconData icon;
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context){
+    return RawMaterialButton(
+      onPressed: onPressed,
+      child: Icon(icon),
+      shape: CircleBorder(),
+      elevation: 6.0,
+      fillColor: Color(0xFF4C4F5E),
+      constraints: BoxConstraints.tightFor(
+        width: 56.0,
+        height: 56.0,
+      ),
+    );
+  }
+}
