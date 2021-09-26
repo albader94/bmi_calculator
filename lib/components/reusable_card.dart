@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const double containerMargin = 15.0;
 const double borderRadius = 10.0;
 
+// ignore: must_be_immutable
 class ReusableCard extends StatelessWidget {
   
   final Color cardColor;
